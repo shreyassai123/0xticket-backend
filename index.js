@@ -140,8 +140,7 @@ app.get("/api/getNFTs", async (req, res) => {
       };
       const nfts = await Moralis.Web3API.account.getNFTsForContract(options);
       const finalNfts = await Promise.all(nfts.result.map(async (nft) => {
-        const response = await fetch(nft.token_uri);
-        const metadata = await response.json()
+        const metadata = JSON.parse(nft.metadata);
         return {...nft, metadata: metadata}
       }))
       res.send(finalNfts);
